@@ -1,5 +1,7 @@
 # BasesDeDatosNoUBA
 Este repositorio contiene un simple resumen y toma de apuntes de un curso acerca de Bases de datos, pero en especial,  a SQL 
 
-#### ¿Qué es una base de datos? ¿Qué tipos de bases de datos hay?
+### ¿Qué es una base de datos? ¿Qué tipos de bases de datos hay?
 Una base de datos es una coleccion organizada de Datos, diseñada de tal forma que resulta eficiente, confiable y segura. Las bases de datos que mantienen una relación entre las tablas se las conoce por Bases de Datos Relacionales mientras que las Bases de Datos No Relacionales (NoSql) son aquellas que son mucho menos estructuradas y flexibles.
+### ¿Cuáles son los principales componentes de una Base de datos relacional?
+El principal componente son las tablas, las cuales contienen campos (columnas) y filas, cuyas filas mantienen una distinción por medio de claves únicas.
