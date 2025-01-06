@@ -178,3 +178,93 @@ UNION
 
 SELECT titulo from Episodios WHERE rating_imdb > 9;
 ```
+
+
+#### FUNCION IF 
+Funciona para realizar una consulta dada una condición.
+Ejemplo: 
+Deseamos categorizar los episodios en base a su rating imdb por alto o bajo.
+```
+SELECT titulo, rating_imdb, IF(rating_imdb > 8, 'Alto', 'Bajo') AS 'Categoria de Rating'
+FROM episodios
+```
+
+#### FUNCION CASE
+Funciona para evaluar condiciones más específicas en nuestra consulta.
+Ejemplo:
+Deseamos filtrar por varias fechas.
+```
+SELECT titulo,
+      año_lanzamiento,
+    CASE
+      WHEN año_lanzamiento >= 2020 THEN 'Nueva'
+      WHEN año_lanzamiento BETWEEN 2010 and 2019 THEN 'Clasica'
+      ELSE 'Antigua'
+      END AS categoria
+FROM series;
+```
+Escribe una consulta SQL que seleccione el titulo de todas las series y una nueva columna llamada 'Categoría de Género'
+Esta columna debe reflejar si el género de la serie es 'Drama' o 'Comedia', clasificándolas como 'Dramático' o 'Divertido', respectivamente.
+Para cualquier otro género, la clasificación debe ser 'Otro'.
+Usa la sentencia CASE para asignar estas categorías.
+```
+
+SELECT  titulo,
+        CASE 
+            WHEN genero = 'Drama' THEN 'Dramático'
+            WHEN genero = 'Comedia' THEN 'Divertido'
+            ELSE 'Otro'
+            END AS 'Categoría de Género'
+FROM Series;
+```
+#### FUNCION CAST 
+Dicha función transforma el tipo de dato que tiene un campo para poder correr diferentes funciones que el tipo de dato original restringe.
+Ejemplo:
+Para ver los tipos de dato de los campos de una tabla utilizamos `DESCRIBE <tabla>;` 
+Ahora buscamos seleccionar los registros con una fecha dada en un formato erróneo para eso utilizamos `CAST`.
+```
+SELECT * FROM episodios 
+WHERE CAST(fecha_estreno AS DATE) > '2020-05-01';
+```
+
+### FUNCIONES DE FECHA Y HORA 
+#### YEAR()/ MONTH()/ DAY() 
+Devuelve la parte de una fecha específica respectivamente de cada función.
+#### DATEADD() 
+Agrega un intervalo de tiempo a una fecha y devuelve dicha fecha.
+```
+SELECT fecha_estreno
+  DATE ADD(fecha_estreno, INTERVAL 30 DAY)
+FROM episodios;
+```
+#### DATEDIFF Y CURDATE() 
+Calcula cuantos dias pasaron de la fecha de estreno hasta hoy
+```
+SELECT *,
+  DATEDIFF(fecha_estreno, CURDATE())
+FROM episodios;
+```
+
+### FUNCION DE MODIFICACION DE TEXTO
+#### UPPER/LOWER
+Cambia el formato de texto a Mayusculas o minusculas
+
+#### CONCAT
+Concatena el conjunto de strings definido dentro de la función
+
+#### SUBSTR/LEFT/RIGHT
+Nos permite extraer una cadena específica de un fragmento de texto
+SUBSTRING(campo,indice inicial, indice final)
+`SELECT SUBSTR(titulo,1,5) AS primeros_cinco_caracteres FROM Episodios;`
+
+
+### FUNCIONES MATEMATICAS
+
+#### ROUND
+redondea al entero mas cercano.
+
+#### CEILING 
+redondea hacia arriba.
+`SELECT CEILING(rating_imdb) AS rating_redondeado FROM episodios;`
+#### FLOOR 
+redondea hacia abajo.
