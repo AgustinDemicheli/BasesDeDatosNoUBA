@@ -108,3 +108,73 @@ SELECT MAX(edad)  FROM usuarios;
 SELECT MIN(salario)  FROM empleados;
 SELECT AVG(altura) FROM personas WHERE nacionalidad IN ('Argentina','Brasil','Chile','Colombia','Ecuador','Paraguay',Uruguay);
 ```
+### JOINS 
+Nos permiten realizar consultas más potentes relacionando las tablas entre sí por medio de una consulta y un dato en comun al que suele conocerse como "clave".
+Los más utilizados suelen ser el INNER JOIN y LEFT JOIN.
+
+#### INNER JOIN 
+Son todos los registros que tienen en común un campo de ambas tablas.
+Ejemplo:
+```
+SELECT * FROM Series INNER JOIN Actuaciones ON Series.serie_id = Actuaciones.serie_id;
+SELECT Series.titulo AS titulo_serie , Episodios.titulo AS titulo_episodio , 
+duracion FROM Series
+INNER JOIN Episodios ON Series.serie_id = Episodios.serie_id
+WHERE Series.titulo = 'Stranger Things';
+```
+#### LEFT JOIN
+Funciona para combinar registros de dos tablas pero incluimos todos los registros de la tabla de la izquierda.
+Ejemplo:
+Escribe una consulta SQL que devuelva, para cada serie, su título, el título de cada episodio asociado (si hay alguno), y el rating de IMDb.
+Los alias exactos que debes aplicar son: Título de la Serie, Título del Episodio, Rating IMDB
+Ordena los resultados por el título de la serie de forma ascendente
+```
+SELECT Series.titulo AS 'Título de la Serie' ,
+Episodios.titulo AS 'Título del Episodio', Episodios.rating_imdb AS 'Rating IMDB'
+FROM Series LEFT JOIN Episodios 
+on Series.serie_id = Episodios.serie_id
+ORDER BY Series.titulo;
+```
+Escribe una consulta SQL que muestre el título de la serie, el título de cada episodio, y el rating de IMDb para todos los episodios de la serie 'Stranger Things'
+Ordena los resultados por Episodios.rating_imdb de forma descendente (de mayor a menor) según rating de imdb
+Los alias exactos que debes aplicar sobre las columnas son: Título de la Serie, Título del Episodio, Rating IMDB
+```
+SELECT Series.titulo AS 'Título de la Serie', Episodios.titulo AS 'Título del Episodio', Episodios.rating_imdb AS 'Rating IMDB'
+FROM Series LEFT JOIN Episodios
+ON Series.serie_id = Episodios.serie_id 
+WHERE Series.titulo = 'Stranger Things'
+ORDER BY Episodios.rating_imdb DESC;
+```
+
+#### RIGHT JOIN 
+Funciona para combinar registros de dos tablas incluyendo los registros de la tabla de la derecha .
+Ejemplo:
+Escribe una consulta SQL que genere una lista que muestre el título de cada serie junto con el título y duración de sus episodios.
+Sin embargo, solo incluirás en tu resultado aquellos episodios que tengan una duración mayor a 30 minutos.
+Ordena los resultados alfabéticamente por el título de la serie.
+Los alias exactos que debes aplicar sobre las columnas son:
+Título de la Serie
+Título del Episodio
+Duración
+```
+SELECT Series.titulo AS 'Título de la Serie', Episodios.titulo AS 'Título del Episodio', duracion AS 'Duración'
+FROM Episodios RIGHT JOIN Series
+ON Episodios.serie_id = Series.serie_id 
+WHERE Episodios.duracion > 30
+ORDER BY Series.titulo ;
+```
+#### UNION y UNION ALL
+Funciona para unir los resultados de varias consultas que necesariamente deben tener una misma cantidad de columnas en su salida, UNION ALL mantiene los duplicados mientras que UNION los descarta.
+
+Ejemplo:
+Escribe una consulta SQL que genere una lista unificada de títulos de episodios que cumplan al menos una de las siguientes condiciones:
+Tener una duración > 20 minutos o un rating en IMDb > 9
+Te recomiendo utilizar la cláusula UNION para combinar los resultados de dos consultas separadas basadas en estas condiciones. Una consulta puede contener la primera condición, y la segunda consulta contener la segunda condición.
+Recuerda solo debes seleccionar el campo titulo en ambos SELECT bajo las condiciones establecidas.
+```
+SELECT titulo from Episodios WHERE duracion > 20
+
+UNION 
+
+SELECT titulo from Episodios WHERE rating_imdb > 9;
+```
