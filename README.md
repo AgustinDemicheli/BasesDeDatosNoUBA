@@ -268,3 +268,46 @@ redondea hacia arriba.
 `SELECT CEILING(rating_imdb) AS rating_redondeado FROM episodios;`
 #### FLOOR 
 redondea hacia abajo.
+
+
+### FUNCIONES DE VENTANA
+Las funciones de ventana sirven para recopilar informacion mientras se recopila informacion de una fila en la tabla.
+#### ROW_NUMBER 
+```
+SELECT  titulo,
+        año_lanzamiento,
+        ROW_NUMBER() OVER (ORDER BY año_lanzamiento DESC) AS clasificacion_global
+FROM series
+```
+#### PARTITION BY 
+```
+SELECT temporada,
+        titulo,
+        rating_imdb,
+        ROW_NUMBER() OVER (PARTITION BY temporada ORDER BY rating_imdb DESC) AS 'Ranking IMDb'
+        FROM episodios
+                WHERE serie_id = 2
+```
+
+#### RANK
+```
+SELECT titulo,
+        rating_imdb,
+        RANK() OVER (ORDER BY rating_imdb DESC) AS ranking_imdb
+        FROM episodios
+```
+
+#### DENSE_RANK
+```
+
+SELECT  titulo,
+        duracion,
+        DENSE_RANK() OVER (ORDER BY duracion DESC) AS ranking_por_duracion
+        FROM episodios
+```
+
+            
+### EXPRESIONES REGULARES
+
+#### REGEXP
+se utiliza como una función para buscar con expresiones regulares valores dentro de los campos de las filas.
